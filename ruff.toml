@@ -1,0 +1,81 @@
+preview = true
+
+target-version = "py314"
+
+line-length = 88
+
+[lint]
+select = [
+    "ERA",
+    "YTT",
+    "ANN",
+    "ASYNC",
+    "BLE",
+    "FBT",
+    "B",
+    "A",
+    "COM",
+    "C4",
+    "DTZ",
+    "T10",
+    "EM",
+    "FIX",
+    "FA",
+    "INT",
+    "ISC",
+    "ICN",
+    "LOG",
+    "G",
+    "INP",
+    "PIE",
+    "T20",
+    "PYI",
+    "PT",
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SIM",
+    "SLOT",
+    "TID",
+    "TD",
+    "TC",
+    "ARG",
+    "PTH",
+    "FLY",
+    "I",
+    "C90",
+    "NPY",
+    "PD",
+    "N",
+    "PERF",
+    "E",
+    "W",
+    "D",
+    "F",
+    "PGH",
+    "PL",
+    "UP",
+    "FURB",
+    "RUF",
+    "TRY",
+]
+ignore = [
+    "COM812",
+    "TC001",
+    "TC002",
+    "TC003",
+    "D100",
+    "D104",
+    "D415",
+    "ISC003",
+]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.pycodestyle]
+max-doc-length = 72
+
+[lint.mccabe]
+max-complexity = 6
