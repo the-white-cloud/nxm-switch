@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=NXM Switch
+Comment=Intercept NXM links and forward to your chosen mod manager
+Exec=/usr/bin/nxm_switch %u
+Terminal=false
+Type=Application
+MimeType=x-scheme-handler/nxm;
+Categories=Utility;
+Keywords=nxm;nexus;mods;switcher;
+Actions=Uninstall;
+                                                                                                  
+[Desktop Action Uninstall]
+Name=Uninstall NXM Switch
+Exec=/usr/bin/nxm_switch --uninstall

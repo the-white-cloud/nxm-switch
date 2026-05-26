@@ -1,7 +1,7 @@
 [project]
 name = "nxm-switch"
-version = "0.2.1"
-description = "Add your description here"
+version = "0.5.3"
+description = "A rules-based nexus mod manager (nxm) launcher for Linux."
 readme = "README.md"
 license = "AGPL-3.0-only"
 requires-python = ">=3.14"
@@ -11,5 +11,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pytest>=9.0.3",
     "ruff>=0.15.14",
 ]
