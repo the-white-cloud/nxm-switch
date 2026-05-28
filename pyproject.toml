@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nxm-switch"
-version = "0.5.4"
+version = "0.5.5"
 description = "A rules-based nexus mod manager (nxm) launcher for Linux."
 readme = "README.md"
 license = "AGPL-3.0-only"
@@ -12,6 +12,9 @@ requires-python = ">=3.14"
 dependencies = [
     "pyside6>=6.5.0",
 ]
+
+[project.scripts]
+nxm-switch = "nxm_switch.main:main"
 
 [dependency-groups]
 dev = [

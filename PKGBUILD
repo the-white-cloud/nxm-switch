@@ -1,20 +1,28 @@
-# Maintainer: supss (aur) / the-white-cloud (github)
+# Maintainer: supss <https://github.com/the-white-cloud>
 pkgname=nxm-switch
-pkgver=$(grep -m1 '^version' pyproject.toml | tr -d '" ' | cut -d= -f2)
+pkgver=0.5.5
 pkgrel=1
-pkgdesc=$(grep -m1 '^description' pyproject.toml | sed -E 's/^description[[:space:]]*=[[:space:]]*"?(.*)"?/\1/')
+pkgdesc="A rules-based nexus mod manager (nxm) launcher for Linux."
 arch=('any')
+url="https://github.com/the-white-cloud/nxm-switch"
 license=('AGPL-3.0-only')
+
 depends=('python' 'pyside6')
+makedepends=('uv' 'python-installer' 'python-wheel')
+
+source=(
+    "$pkgname-$pkgver.tar.gz::https://github.com/the-white-cloud/nxm-switch/archive/refs/tags/v$pkgver.tar.gz"
+)
+sha256sums=('79e830711bb857c718bc34637c58f885b03703f3f48ea02761df32b83ba970e8')
+
+build() {
+    cd "$pkgname-$pkgver"
+    uv build --wheel
+}
 
 package() {
-    install -d "$pkgdir/usr/lib/nxm-switch"
-    for f in "$startdir"/*.py; do
-        install -Dm644 "$f" "$pkgdir/usr/lib/nxm-switch/$(basename "$f")"
-    done
-    install -Dm755 /dev/stdin "$pkgdir/usr/bin/nxm_switch" <<'EOF'
-#!/bin/sh
-exec /usr/bin/python3 /usr/lib/nxm-switch/main.py "$@"
-EOF
-    install -Dm644 "$startdir/nxm-switch.desktop" "$pkgdir/usr/share/applications/nxm-switch.desktop"
+    cd "$pkgname-$pkgver"
+    python -m installer --destdir="$pkgdir" dist/*.whl
+    install -Dm644 "nxm-switch.desktop" \
+        "$pkgdir/usr/share/applications/nxm-switch.desktop"
 }
