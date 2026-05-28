@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nxm-switch"
-version = "0.5.6"
+version = "0.5.7"
 description = "A rules-based nexus mod manager (nxm) launcher for Linux."
 readme = "README.md"
 license = "AGPL-3.0-only"

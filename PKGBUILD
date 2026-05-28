@@ -1,6 +1,6 @@
 # Maintainer: supss <https://github.com/the-white-cloud>
 pkgname=nxm-switch
-pkgver=0.5.6
+pkgver=0.5.7
 pkgrel=1
 pkgdesc="A rules-based nexus mod manager (nxm) launcher for Linux."
 arch=('any')
