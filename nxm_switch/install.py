@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 from .constants import (
-    DESKTOP_DIRS,
     DESKTOP_ID,
     GUARD_LOG_TAG,
     GUARD_PATH_UNIT,
@@ -13,7 +12,12 @@ from .constants import (
     SELF_DESKTOP,
     SYSTEMD_USER_DIR,
 )
-from .mime import _mimeapps_paths, get_current_default, set_mime_default
+from .mime import (
+    _mimeapps_paths,
+    clear_mime_default,
+    get_current_default,
+    set_mime_default,
+)
 
 
 def _self_invocation() -> str:
@@ -22,9 +26,9 @@ def _self_invocation() -> str:
     return f"{sys.executable} {Path(sys.argv[0]).resolve()}"
 
 
-
 def uninstall_self() -> None:
     uninstall_guard()
+    clear_mime_default()
     SELF_DESKTOP.unlink(missing_ok=True)
     if shutil.which("update-desktop-database"):
         subprocess.run(
@@ -32,10 +36,6 @@ def uninstall_self() -> None:
             capture_output=True,
             check=False,
         )
-
-
-def self_is_installed() -> bool:
-    return SELF_DESKTOP.exists() or any((d / DESKTOP_ID).exists() for d in DESKTOP_DIRS)
 
 
 def self_is_default() -> bool:
@@ -46,8 +46,7 @@ def reassert_default() -> bool:
     """Make default if not default"""
     if self_is_default():
         return False
-    set_mime_default(DESKTOP_ID)
-    return True
+    return set_mime_default(DESKTOP_ID)
 
 
 def guard_available() -> bool:

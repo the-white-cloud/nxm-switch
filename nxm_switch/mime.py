@@ -128,6 +128,17 @@ def get_current_default() -> str:
     return ""
 
 
+def clear_mime_default() -> None:
+    for path in _mimeapps_paths():
+        if not path.exists():
+            continue
+        with contextlib.suppress(OSError):
+            lines = path.read_text().splitlines(keepends=True)
+            filtered = [l for l in lines if l.split("=", 1)[0].strip() != MIME_TYPE]
+            if filtered != lines:
+                path.write_text("".join(filtered))
+
+
 def set_mime_default(desktop_id: str) -> bool:
     written = False
     paths = _mimeapps_paths()

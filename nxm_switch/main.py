@@ -28,7 +28,6 @@ from .theme import get_stylesheet
 
 
 def main() -> None:
-    # Headless: used by the systemd guard service, must run before QApplication.
     if "--reassert-default" in sys.argv:
         changed = reassert_default()
         print(  # noqa: T201
@@ -81,9 +80,7 @@ def main() -> None:
     window = SettingsWindow()
     window.show()
 
-    if (not window.installed or not window.is_default) and window.config.get(
-        "warn_if_not_default", True
-    ):
+    if not window.is_default and window.config.get("warn_if_not_default", True):
         reply = QMessageBox.question(
             window,
             "Set as Default",
@@ -92,7 +89,12 @@ def main() -> None:
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
         )
         if reply == QMessageBox.StandardButton.Yes:
-            reassert_default()
+            if not reassert_default():
+                QMessageBox.critical(
+                    window,
+                    "Error",
+                    "Failed to set NXM Switch as the default handler.",
+                )
             window._load()
 
     sys.exit(app.exec())

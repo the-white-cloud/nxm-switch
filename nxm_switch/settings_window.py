@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
 from .config import load_config
 from .constants import MIME_TYPE
 from .discovery import get_handlers
-from .install import self_is_default, self_is_installed
+from .install import self_is_default
 from .logs_page import LogsPage
 from .rules import RulesPage
 from .settings_page import SettingsPage
@@ -81,19 +81,14 @@ class SettingsWindow(QMainWindow):
     def _load(self) -> None:
         self.config = load_config()
         self.handlers = get_handlers(self.config)
-        self.installed = self_is_installed()
         self.is_default = self_is_default()
 
-        if self.installed and self.is_default:
+        if self.is_default:
             self.status_lbl.setObjectName("ok")
             self.status_lbl.setText("● Default nexus handler")
         else:
             self.status_lbl.setObjectName("warn")
-            self.status_lbl.setText(
-                "◐ Not the default nexus handler"
-                if self.installed
-                else "○ Not installed"
-            )
+            self.status_lbl.setText("◐ Not the default nexus handler")
 
         repolish(self.status_lbl)
 
@@ -105,4 +100,3 @@ class SettingsWindow(QMainWindow):
         self.rules_page.refresh(self.config, self.handlers)
         self.settings_page.refresh(self.config, self.handlers)
         self.logs_page.refresh(self.config, self.handlers)
-
