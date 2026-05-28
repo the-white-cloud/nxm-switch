@@ -19,10 +19,10 @@ from .install import (
     self_is_installed,
     uninstall_self,
 )
-from logs_page import LogsPage
-from rules import RulesPage
-from settings_page import SettingsPage
-from widgets import divider, lbl, make_btn, repolish
+from .logs_page import LogsPage
+from .rules import RulesPage
+from .settings_page import SettingsPage
+from .widgets import divider, lbl, make_btn, repolish
 
 
 class SettingsWindow(QMainWindow):

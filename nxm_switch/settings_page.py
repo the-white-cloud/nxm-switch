@@ -19,7 +19,7 @@ from .activity_log import journal_note
 from .config import save_config
 from .constants import DEFAULT_TIMEOUT
 from .install import guard_available, guard_is_active, install_guard, uninstall_guard
-from widgets import divider, lbl, make_btn
+from .widgets import divider, lbl, make_btn
 
 
 class SettingsPage(QWidget):

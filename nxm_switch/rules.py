@@ -13,9 +13,7 @@ from PySide6.QtWidgets import (
 
 from .config import load_config, parse_game, save_config
 from .discovery import handler_name
-from widgets import divider, lbl, make_btn
-
-# ── Add-rule dialog ───────────────────────────────────────────────────────────
+from .widgets import divider, lbl, make_btn
 
 
 class AddRuleDialog(QDialog):
