@@ -18,17 +18,8 @@ class Theme:
         acc_dim = QColor(accent)
         acc_dim.setAlpha(76)
 
-        is_dark_mode = QApplication.styleHints().colorScheme() == Qt.ColorScheme.Dark
         success = QColor("#4caf7d")
         warn = QColor("#d4622b")
-        if not is_dark_mode:
-            for color in (success, warn):
-                hue = color.hslHueF()
-                sat = color.hslSaturationF()
-                lue = color.lightnessF()
-                new_s = min(1.0, sat + 0.05)
-                new_l = max(0.10, min(0.95, 1.0 - lue))
-                color.setHslF(hue, new_s, new_l, color.alphaF())
 
         return {
             "bg": bg.name(),
