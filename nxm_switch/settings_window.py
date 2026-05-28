@@ -3,22 +3,15 @@ from PySide6.QtWidgets import (
     QLabel,
     QListWidget,
     QMainWindow,
-    QMessageBox,
     QTabWidget,
     QVBoxLayout,
     QWidget,
 )
 
-from .activity_log import journal_note
 from .config import load_config
 from .constants import MIME_TYPE
 from .discovery import get_handlers
-from .install import (
-    install_self,
-    self_is_default,
-    self_is_installed,
-    uninstall_self,
-)
+from .install import self_is_default, self_is_installed
 from .logs_page import LogsPage
 from .rules import RulesPage
 from .settings_page import SettingsPage
@@ -56,14 +49,6 @@ class SettingsWindow(QMainWindow):
         status_lay.addSpacing(6)
         self.status_lbl = QLabel()
         status_lay.addWidget(self.status_lbl)
-        status_lay.addSpacing(10)
-        ibrow = QHBoxLayout()
-        self.install_btn = make_btn("Install as Handler", "ghost")
-        self.install_btn.clicked.connect(self._toggle_install)
-        ibrow.addWidget(self.install_btn)
-        ibrow.addStretch()
-        status_lay.addLayout(ibrow)
-
         status_lay.addSpacing(20)
         status_lay.addWidget(divider())
         status_lay.addSpacing(16)
@@ -102,7 +87,6 @@ class SettingsWindow(QMainWindow):
         if self.installed and self.is_default:
             self.status_lbl.setObjectName("ok")
             self.status_lbl.setText("● Default nexus handler")
-            self.install_btn.setVisible(False)
         else:
             self.status_lbl.setObjectName("warn")
             self.status_lbl.setText(
@@ -110,12 +94,8 @@ class SettingsWindow(QMainWindow):
                 if self.installed
                 else "○ Not installed"
             )
-            self.install_btn.setText("Set as Default")
-            self.install_btn.setObjectName("ghost")
-            self.install_btn.setVisible(True)
 
         repolish(self.status_lbl)
-        repolish(self.install_btn)
 
         self.handlers_list.clear()
         for h in self.handlers:
@@ -126,27 +106,3 @@ class SettingsWindow(QMainWindow):
         self.settings_page.refresh(self.config, self.handlers)
         self.logs_page.refresh(self.config, self.handlers)
 
-    def do_install(self) -> None:
-        if install_self():
-            QMessageBox.information(
-                self, "Default Set", "NXM Switch is now the default NXM handler."
-            )
-        else:
-            QMessageBox.critical(self, "Error", "Failed to set as default handler.")
-        self._load()
-
-    def _toggle_install(self) -> None:
-        if self.installed and self.is_default:
-            if (
-                QMessageBox.question(
-                    self,
-                    "Uninstall",
-                    "Remove NXM Switch as the NXM handler?",
-                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                )
-                == QMessageBox.StandardButton.Yes
-            ):
-                uninstall_self()
-                self._load()
-        else:
-            self.do_install()

@@ -11,20 +11,16 @@ Config:  ~/.config/nxm-switch/config.json
 Desktop: ~/.local/share/applications/nxm-switch.desktop
 """
 
-import os
-import shlex
-import shutil
 import signal
-import subprocess
 import sys
 
 from PySide6.QtWidgets import QApplication, QMessageBox
 
 from .activity_log import log_forward
-from .config import clean_env, load_config, parse_game, save_config
+from .config import load_config, parse_game, save_config
 from .constants import ForwardMethod
 from .discovery import get_handlers, resolve_handler
-from .install import is_package_installed, reassert_default, uninstall_self
+from .install import reassert_default, uninstall_self
 from .intercept_dialog import InterceptDialog
 from .launch import launch_handler
 from .settings_window import SettingsWindow
@@ -51,56 +47,12 @@ def main() -> None:
     app.setStyleSheet(get_stylesheet())
 
     if "--uninstall" in sys.argv:
-        if is_package_installed("nxm-switch"):
-            pkg = "nxm-switch"
-            pacman_args = ["sudo", "pacman", "-Rns", pkg]
-            ran_pacman = False
-            if sys.stdin.isatty():
-                subprocess.run(pacman_args, env=clean_env(), check=False)
-                ran_pacman = True
-            else:
-                cmd_str = shlex.join(pacman_args)
-                inner = (
-                    f'echo "=== NXM Switch Uninstaller ==="; '
-                    f'echo "Package : {shlex.quote(pkg)}"; '
-                    f'echo "Command : {cmd_str}"; '
-                    f"echo; {cmd_str}; "
-                    f'echo; read -rp "Done. Press Enter to close..."'
-                )
-                for term, sep_args in [
-                    (os.environ.get("TERMINAL", ""), []),
-                    ("konsole", ["-e"]),
-                    ("kitty", []),
-                    ("alacritty", ["-e"]),
-                    ("gnome-terminal", ["--"]),
-                    ("xfce4-terminal", ["--"]),
-                    ("xterm", ["-e"]),
-                    ("urxvt", ["-e"]),
-                ]:
-                    if term and shutil.which(term):
-                        result = subprocess.run(
-                            [term, *sep_args, "bash", "-c", inner],
-                            env=clean_env(),
-                            check=False,
-                        )
-                        if result.returncode == 0:
-                            ran_pacman = True
-                            break
-                if not ran_pacman:
-                    QMessageBox.information(
-                        None,
-                        "Uninstall",
-                        f"No terminal found. Run manually:\n  {' '.join(pacman_args)}",
-                    )
-            if ran_pacman:
-                uninstall_self()
-        else:
-            uninstall_self()
-            QMessageBox.information(
-                None,
-                "Uninstalled",
-                "NXM Switch has been removed as a handler and deleted from your application menu.",
-            )
+        uninstall_self()
+        QMessageBox.information(
+            None,
+            "Uninstalled",
+            "NXM Switch has been removed as a handler and deleted from your application menu.",
+        )
         sys.exit(0)
 
     nxm_args = [a for a in sys.argv[1:] if a.lower().startswith("nxm://")]
@@ -140,7 +92,8 @@ def main() -> None:
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
         )
         if reply == QMessageBox.StandardButton.Yes:
-            window.do_install()
+            reassert_default()
+            window._load()
 
     sys.exit(app.exec())
 

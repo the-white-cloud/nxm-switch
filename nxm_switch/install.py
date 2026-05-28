@@ -10,25 +10,10 @@ from .constants import (
     GUARD_LOG_TAG,
     GUARD_PATH_UNIT,
     GUARD_SERVICE_UNIT,
-    MIME_TYPE,
     SELF_DESKTOP,
     SYSTEMD_USER_DIR,
 )
 from .mime import _mimeapps_paths, get_current_default, set_mime_default
-
-
-def is_package_installed(package: str) -> bool:
-    if not shutil.which("pacman"):
-        return False
-    try:
-        return (
-            subprocess.run(
-                ["pacman", "-Q", package], capture_output=True, timeout=3, check=False
-            ).returncode
-            == 0
-        )
-    except (subprocess.TimeoutExpired, OSError):
-        return False
 
 
 def _self_invocation() -> str:
@@ -36,33 +21,6 @@ def _self_invocation() -> str:
         return str(Path(sys.executable).resolve())
     return f"{sys.executable} {Path(sys.argv[0]).resolve()}"
 
-
-def install_self() -> bool:
-    desktop_dir = SELF_DESKTOP.parent
-    desktop_dir.mkdir(parents=True, exist_ok=True)
-    invocation = _self_invocation()
-    SELF_DESKTOP.write_text(
-        "[Desktop Entry]\n"
-        "Name=NXM Switch\n"
-        "Comment=Intercept NXM links and forward to your chosen mod manager\n"
-        f"Exec={invocation} %u\n"
-        "Terminal=false\n"
-        "Type=Application\n"
-        f"MimeType={MIME_TYPE};\n"
-        "Categories=Utility;\n"
-        "Keywords=nxm;nexus;mods;switcher;\n"
-        "Actions=Uninstall;\n\n"
-        "[Desktop Action Uninstall]\n"
-        "Name=Uninstall NXM Switch\n"
-        f"Exec={invocation} --uninstall\n"
-    )
-    if shutil.which("update-desktop-database"):
-        subprocess.run(
-            ["update-desktop-database", str(desktop_dir)],
-            capture_output=True,
-            check=False,
-        )
-    return set_mime_default(DESKTOP_ID)
 
 
 def uninstall_self() -> None:
@@ -88,10 +46,7 @@ def reassert_default() -> bool:
     """Make default if not default"""
     if self_is_default():
         return False
-    if self_is_installed():
-        set_mime_default(DESKTOP_ID)
-    else:
-        install_self()
+    set_mime_default(DESKTOP_ID)
     return True
 
 
@@ -111,15 +66,13 @@ def guard_is_active() -> bool:
             check=False,
         )
         return r.stdout.strip() == "enabled"
-    except (subprocess.TimeoutExpired, OSError):
+    except subprocess.TimeoutExpired, OSError:
         return False
 
 
 def install_guard() -> bool:
     if not guard_available():
         return False
-    if not self_is_installed():
-        install_self()
 
     SYSTEMD_USER_DIR.mkdir(parents=True, exist_ok=True)
     watched = list(dict.fromkeys(_mimeapps_paths()))
@@ -156,7 +109,7 @@ def install_guard() -> bool:
             timeout=5,
             check=True,
         )
-    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError):
+    except subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError:
         return False
 
     reassert_default()
