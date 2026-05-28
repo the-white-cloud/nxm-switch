@@ -1,4 +1,4 @@
-# Maintainer: supss <https://github.com/the-white-cloud>
+# Maintainer: supss <supss at jules dot software>
 pkgname=nxm-switch
 pkgver=0.5.8
 pkgrel=1
