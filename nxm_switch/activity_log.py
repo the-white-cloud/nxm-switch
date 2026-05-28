@@ -4,7 +4,7 @@ import shutil
 import subprocess
 from datetime import UTC, datetime
 
-from constants import CONFIG_DIR, GUARD_LOG_TAG, LOG_FILE
+from .constants import CONFIG_DIR, GUARD_LOG_TAG, LOG_FILE
 
 
 def log_forward(url: str, handler: str, method: str) -> None:

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from constants import DESKTOP_DIRS, DESKTOP_ID, MIME_TYPE
+from .constants import DESKTOP_DIRS, DESKTOP_ID, MIME_TYPE
 
 
 def _parse_desktop_file(path_obj: Path) -> dict | None:

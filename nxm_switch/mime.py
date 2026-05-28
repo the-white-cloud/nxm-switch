@@ -4,7 +4,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from constants import MIME_TYPE, NXM_SCHEME
+from .constants import MIME_TYPE, NXM_SCHEME
 
 
 # Derived from Amethyst-Mod-Manager by ChrisDKN (GPL-3.0)

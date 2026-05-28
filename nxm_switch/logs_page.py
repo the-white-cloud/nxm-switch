@@ -9,9 +9,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from activity_log import clear_activity_log, read_activity_log, read_service_log
-from constants import ForwardMethod
-from widgets import divider, lbl, make_btn, truncate
+from .activity_log import clear_activity_log, read_activity_log, read_service_log
+from .constants import ForwardMethod
+from .widgets import divider, lbl, make_btn, truncate
 
 METHOD_LABELS = {
     ForwardMethod.RULE: "Rule",

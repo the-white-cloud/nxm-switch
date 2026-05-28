@@ -20,15 +20,15 @@ import sys
 
 from PySide6.QtWidgets import QApplication, QMessageBox
 
-from activity_log import log_forward
-from config import clean_env, load_config, parse_game, save_config
-from constants import ForwardMethod
-from discovery import get_handlers, resolve_handler
-from install import is_package_installed, reassert_default, uninstall_self
-from intercept_dialog import InterceptDialog
-from launch import launch_handler
-from settings_window import SettingsWindow
-from theme import get_stylesheet
+from .activity_log import log_forward
+from .config import clean_env, load_config, parse_game, save_config
+from .constants import ForwardMethod
+from .discovery import get_handlers, resolve_handler
+from .install import is_package_installed, reassert_default, uninstall_self
+from .intercept_dialog import InterceptDialog
+from .launch import launch_handler
+from .settings_window import SettingsWindow
+from .theme import get_stylesheet
 
 
 def main() -> None:

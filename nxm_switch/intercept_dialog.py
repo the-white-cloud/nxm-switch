@@ -10,12 +10,12 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from activity_log import log_forward
-from config import load_config, save_config
-from constants import DEFAULT_TIMEOUT, ForwardMethod
-from discovery import get_handlers
-from launch import launch_handler
-from widgets import divider, lbl, make_btn, truncate
+from .activity_log import log_forward
+from .config import load_config, save_config
+from .constants import DEFAULT_TIMEOUT, ForwardMethod
+from .discovery import get_handlers
+from .launch import launch_handler
+from .widgets import divider, lbl, make_btn, truncate
 
 
 class InterceptDialog(QDialog):

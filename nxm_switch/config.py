@@ -3,7 +3,7 @@ import os
 import sys
 from urllib.parse import unquote, urlparse
 
-from constants import CONFIG_DIR, CONFIG_FILE, DEFAULT_TIMEOUT
+from .constants import CONFIG_DIR, CONFIG_FILE, DEFAULT_TIMEOUT
 
 
 def clean_env() -> dict:

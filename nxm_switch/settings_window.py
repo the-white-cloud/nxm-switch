@@ -9,11 +9,11 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from activity_log import journal_note
-from config import load_config
-from constants import MIME_TYPE
-from discovery import get_handlers
-from install import (
+from .activity_log import journal_note
+from .config import load_config
+from .constants import MIME_TYPE
+from .discovery import get_handlers
+from .install import (
     install_self,
     self_is_default,
     self_is_installed,

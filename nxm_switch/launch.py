@@ -1,7 +1,7 @@
 import shlex
 import subprocess
 
-from config import clean_env
+from .config import clean_env
 
 
 def launch_handler(handler: dict, url: str) -> None:

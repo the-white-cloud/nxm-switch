@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from constants import (
+from .constants import (
     DESKTOP_DIRS,
     DESKTOP_ID,
     GUARD_LOG_TAG,
@@ -14,7 +14,7 @@ from constants import (
     SELF_DESKTOP,
     SYSTEMD_USER_DIR,
 )
-from mime import _mimeapps_paths, get_current_default, set_mime_default
+from .mime import _mimeapps_paths, get_current_default, set_mime_default
 
 
 def is_package_installed(package: str) -> bool:
