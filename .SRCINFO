@@ -1,0 +1,16 @@
+pkgbase = nxm-switch
+	pkgdesc = A rules-based nexus mod manager (nxm) launcher for Linux.
+	pkgver = 0.5.8
+	pkgrel = 1
+	url = https://github.com/the-white-cloud/nxm-switch
+	arch = any
+	license = AGPL-3.0-only
+	makedepends = uv
+	makedepends = python-installer
+	makedepends = python-wheel
+	depends = python
+	depends = pyside6
+	source = nxm-switch-0.5.8.tar.gz::https://github.com/the-white-cloud/nxm-switch/archive/refs/tags/v0.5.8.tar.gz
+	sha256sums = 9ce8d8b37e38a0acca3f5abf401ee426bc4ff7a919e44b4a17ef8847bbe41bf6
+
+pkgname = nxm-switch

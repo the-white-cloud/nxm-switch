@@ -1,6 +1,6 @@
 # Maintainer: supss <https://github.com/the-white-cloud>
 pkgname=nxm-switch
-pkgver=0.5.7
+pkgver=0.5.8
 pkgrel=1
 pkgdesc="A rules-based nexus mod manager (nxm) launcher for Linux."
 arch=('any')
@@ -13,7 +13,7 @@ makedepends=('uv' 'python-installer' 'python-wheel')
 source=(
     "$pkgname-$pkgver.tar.gz::https://github.com/the-white-cloud/nxm-switch/archive/refs/tags/v$pkgver.tar.gz"
 )
-sha256sums=('SKIP')
+sha256sums=('9ce8d8b37e38a0acca3f5abf401ee426bc4ff7a919e44b4a17ef8847bbe41bf6')
 
 build() {
     cd "$pkgname-$pkgver"
